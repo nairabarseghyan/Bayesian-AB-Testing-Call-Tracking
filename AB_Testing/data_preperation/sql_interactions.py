@@ -70,7 +70,6 @@ class SqlHandler:
         logger.info(f'AFTER the column intersection: {columns}')
         ncolumns=list(len(columns)*'?')
         data_to_insert=df.loc[:,columns]
-    
         values=[tuple(i) for i in data_to_insert.values]
         logger.info(f'the shape of the table which is going to be imported {data_to_insert.shape}')
         # if 'geometry' in columns: #! This block is usefull in case of geometry/geography data types
@@ -80,7 +79,7 @@ class SqlHandler:
         if len(columns)>1:
             cols,params =', '.join(columns), ', '.join(ncolumns)
         else:
-            cols,params =columns[0],ncolumns[0]
+            cols,params = columns,ncolumns
             
         logger.info(f'insert structure: colnames: {cols} params: {params}')
         logger.info(values[0])
@@ -136,7 +135,7 @@ class SqlHandler:
 
     def update_table(self,condition):
         pass
-        # TODO: complete on your own
+        # not yet comleted
 
    
         

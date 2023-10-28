@@ -14,22 +14,34 @@ logger.addHandler(ch)
 
 fake=Faker()
 
+
+def source_type_identifier(source):
+    online_source =["Facebook", "Instagram"]
+    offline_sources = ["Billboard", "Flyer", "TV", "Magazine"]
+    if source in online_source:
+        return "Online"
+    elif source in offline_sources:
+        return "Offline"
+    else:
+        return "Unknown"
+    
 # Data Models
 
 # advetisment generator 
 def generate_advertisment(advertisment_id):
-    ads = ["Facebook", "Instagram", "Billboard", "Flyer", "TV", "Magazine"]
     return {
         "AdvertisementID": advertisment_id,
-        "AdvertisementType": random.choice(ads)
+        "AdvertisementType": fake.word()
     }
 
 #Source generator 
 def generate_source(employee_id):
+    sources = ["Facebook", "Instagram", "Billboard", "Flyer", "TV", "Magazine"]
+    source_choice = random.choice(sources)
     return {
         "SourceID": employee_id,
-        "SourceName": fake.first_name(),
-        "SourceType": fake.last_name(),
+        "SourceName": source_choice,
+        "SourceType": source_type_identifier(source_choice)
     }
 
 def generate_customer(customer_id):
@@ -37,7 +49,7 @@ def generate_customer(customer_id):
         "CustomerID": customer_id,
         "customer_name": fake.name(),
         "Location": fake.street_address(),
-        "ContactInfo": fake.phoneNumber().cellPhone()
+        "ContactInfo": fake.phone_number()
     }
 
 def generate_date(date_id):
@@ -58,20 +70,14 @@ def generate_date(date_id):
     }
 
 ### NOT YET IMPLEMETED IN DB ###
-def generate_CALLS(transaction_id, order_id, product_id, customer_id, employee_id):
-    total_sales = round(random.uniform(10.0, 500.0), 2)
-    quantity = random.randint(1, 10)
-    discount = round(random.uniform(0.0, 0.5), 2)
+def generate_calls(call_id, customer_id, product_id, phone_number_id, source_id):
 
     return {
-        "transaction_id": transaction_id,
-        "order_id": order_id,
-        "product_id": product_id,
+        "call_id": call_id,
         "customer_id": customer_id,
-        "employee_id": employee_id,
-        "total_sales": total_sales,
-        "quantity": quantity,
-        "discount": discount
+        "phone_number_id": phone_number_id,
+        "source_id": source_id,
+        "call_duration": random.randint(0,1000)
     }
 
 
