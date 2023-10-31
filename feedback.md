@@ -11,25 +11,25 @@
 
 ## Milestone 1 | 2Oct-13Oct
 
-1. **Define the problem:** Done
+1. **Define the problem:** <span style='color:green'>done</span> 
     -  Please switch from .docx to .md format by Milestone 2
     Good
-2. **Finalizing roles:** Done
-3. **Create a product roadmap and prioritize functionality (items):** Done 
+2. **Finalizing roles:** <span style='color:green'>done</span> 
+3. **Create a product roadmap and prioritize functionality (items):** <span style='color:green'>done</span> 
     - overall, the roadmap is quite realistic
     - you only included must and could haves
     - I would recommend going with Thompson Sampling; there is no need to compare algorithms at this stage. Remember we need to make  a skate or a scooter.
-4. **Creating the GitHub repository included readme.md and `.gitignore` (for Python) files:** partially done
+4. **Creating the GitHub repository included readme.md and `.gitignore` (for Python) files:** <span style='color:green'>partially done</span>
     - during the remote repository initialization, you should have selected add `.gitingorne` with the Python option
 5. **Create a virtual environment in the above repo and generate requirements.txt (`venv` must be ignored in git)** Not Done
     - it seems you did with conda create, without adding  `--no-default-packages` option. As a result, we have a bunch of extra packages. 
     - please fix it and push it to GitHub by the end of Milestone 2 
-6. **Push *point 1, point 3, point 5 (requirements.txt).*** red_circle: 
+6. **Push *point 1, point 3, point 5 (requirements.txt).*** <span style='color:red'>not done</span> : 
     - see point 5
-7. **Complete the first chapter of  Developing Python Packages:** Done
+7. **Complete the first chapter of  Developing Python Packages:** <span style='color:green'>done</span> 
     - completed by everyone
-8. **Create a private Slack channel in our Workspace and name it Group-{number}** Done
-9. **Schedule a call with me and Garo or come during the office hours:** Done
+8. **Create a private Slack channel in our Workspace and name it Group-{number}** <span style='color:green'>done</span> 
+9. **Schedule a call with me and Garo or come during the office hours:** <span style='color:green'>done</span> 
 
 By the end of the Milestone 2, you must complete the tasks mentioned above. Feel free to reach out if you have any questions.
 
@@ -95,7 +95,7 @@ Kindly note if you manage to complete the remaining parts by friday, I will give
 1. Complete things from *Milestone 2*
 2. Finish the **third** chapter of Datacamp course (please complete on the 3rd one)
 3. **API Developer:** 
-    - Create a `run.py` file for an API (find the minimum workable example [here]()) 
+    - Create a `run.py` file for an API (find the minimum workable example [here](https://github.com/hovhannisyan91/fastapi)) 
     - Test it on swagger
     - following request types must be available to test (GET, POST, PUT), will provide more details on Friday.
 4. **DB developer:**
@@ -103,7 +103,7 @@ Kindly note if you manage to complete the remaining parts by friday, I will give
     - finalize the documentation for `schema.py` by using `pyment` package
     - finalize the documentation for `SQLHandler()` by using `pyment` package
 5. **Data Scientist:** start working on algorithms by
-    - completing bandit and experiment: `BernoulliThomsponSampling()`
+    - completing the bandit and experiment part: `BernoulliThomsponSampling()`
     - create `BernoulliReword.ipynb` outside of the package and show the output 
 
 
