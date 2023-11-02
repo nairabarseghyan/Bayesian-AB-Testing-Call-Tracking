@@ -28,7 +28,8 @@ class SqlHandler:
         logger.info('the connection has been closed')
 
     def insert_one()->None:
-        pass
+        raise NotImplementedError()
+        # TODO
 
     def get_table_columns(self)->list:
         self.cursor.execute(f"PRAGMA table_info({self.table_name});")
@@ -134,8 +135,8 @@ class SqlHandler:
 
 
     def update_table(self,condition):
-        pass
-        # not yet comleted
+        raise NotImplementedError()
+        # TODO
 
    
         
