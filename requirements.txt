@@ -1,7 +1,7 @@
 annotated-types>=0.6.0
 anyio>=3.7.1
 DateTime>=5.2
-Faker>=19.12.0
+Faker==19.12.0
 fastapi>=0.104.0
 idna>=3.4
 logging>=0.4.9.6
