@@ -5,11 +5,12 @@
 -- USE CallTracking;
 -- GO
 
+-- drop table if exists DimDate, DimAdvertisement, DimSource, DimAlgorithm, DimCustomer, CallTrackingResults
+
 -- Create tables
 CREATE TABLE DimDate (
     DateID INT PRIMARY KEY,
-    CalendarDate DATE,
-    Day INT,
+    CalendarDate DATETIME,
     Month INT,
     Quarter INT,
     Year INT

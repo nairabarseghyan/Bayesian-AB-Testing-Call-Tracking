@@ -61,12 +61,15 @@ def generate_date(date_id):
     # Extract year, quarter, and month from the random date
     year = random_date.year
     quarter = (random_date.month - 1) // 3 + 1
-    month = random_date.strftime('%B')
+    month = random_date.strftime('%m')
+    day = random_date.strftime('%d')
 
     return {
-        "dateId": date_id,
-        "callDate": random_date,
-        "callDuration": year
+        "CalendarDate": random_date.strftime("%Y-%m-%d"),
+        "Year": year,
+        "Day": day,
+        "Month": month,
+        "Quarter": quarter
     }
 
 ### NOT YET IMPLEMETED IN DB ###

@@ -105,7 +105,7 @@ class SqlHandler:
         pass
         #TODO: do it by yourself
 
-    def from_sql_to_pandas(self, chunksize:int, id_value:str) -> pd.DataFrame:
+    def from_sql_to_pandas(self, id_value:str, chunksize:int=64) -> pd.DataFrame:
         """
 
         """
@@ -115,11 +115,17 @@ class SqlHandler:
        
         
         while True:
+            # query=f"""
+            # SELECT * FROM {self.table_name}
+            #     ORDER BY {id_value}
+            #     OFFSET  {offset}  ROWS
+            #     FETCH NEXT {chunksize} ROWS ONLY  
+            # """
+
             query=f"""
             SELECT * FROM {self.table_name}
-                ORDER BY {id_value}
-                OFFSET  {offset}  ROWS
-                FETCH NEXT {chunksize} ROWS ONLY  
+                LIMIT {chunksize}  
+                OFFSET {offset}
             """
             data = pd.read_sql_query(query,self.cnxn) 
             logger.info(f'the shape of the chunk: {data.shape}')
