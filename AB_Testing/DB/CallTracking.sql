@@ -1,9 +1,9 @@
 -- Create Database CallTracking
-CREATE DATABASE CallTracking;
-GO
+-- CREATE DATABASE CallTracking;
+-- GO
 
-USE CallTracking;
-GO
+-- USE CallTracking;
+-- GO
 
 -- Create tables
 CREATE TABLE DimDate (
@@ -30,7 +30,7 @@ CREATE TABLE DimSource (
 CREATE TABLE DimAlgorithm (
     AlgorithmID INT PRIMARY KEY,
     AlgorithmName VARCHAR(255),
-    Description VARCHAR(MAX)
+    Description VARCHAR(2048)
 );
 
 CREATE TABLE DimCustomer (
