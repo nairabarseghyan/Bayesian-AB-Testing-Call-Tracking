@@ -28,11 +28,11 @@ CREATE TABLE DimSource (
     SourceType VARCHAR(255)
 );
 
-CREATE TABLE DimAlgorithm (
-    AlgorithmID INT PRIMARY KEY,
-    AlgorithmName VARCHAR(255),
-    Description VARCHAR(2048)
-);
+-- CREATE TABLE DimAlgorithm (
+--     AlgorithmID INT PRIMARY KEY,
+--     AlgorithmName VARCHAR(255),
+--     Description VARCHAR(2048)
+-- );
 
 CREATE TABLE DimCustomer (
     CustomerID INT PRIMARY KEY,
