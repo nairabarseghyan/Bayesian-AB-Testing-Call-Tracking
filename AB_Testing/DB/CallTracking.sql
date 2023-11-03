@@ -42,12 +42,17 @@ CREATE TABLE DimCustomer (
 
 CREATE TABLE CallTrackingResults (
     ResultID INT PRIMARY KEY,
-    DateID INT FOREIGN KEY REFERENCES DimDate(DateID),
-    AdvertisementID INT FOREIGN KEY REFERENCES DimAdvertisement(AdvertisementID),
-    SourceID INT FOREIGN KEY REFERENCES DimSource(SourceID),
-    AlgorithmID INT FOREIGN KEY REFERENCES DimAlgorithm(AlgorithmID),
-    CustomerID INT FOREIGN KEY REFERENCES DimCustomer(CustomerID),
+    DateID INT,
+    AdvertisementID INT,
+    SourceID INT,
+    AlgorithmID INT,
+    CustomerID INT,
     CallDuration INT,
-    ConversionStatus VARCHAR(50)
+    ConversionStatus VARCHAR(50),
+    FOREIGN KEY(CustomerID) REFERENCES DimCustomer(CustomerID),
+    FOREIGN KEY(AlgorithmID) REFERENCES DimAlgorithm(AlgorithmID),
+    FOREIGN KEY(SourceID) REFERENCES DimSource(SourceID),
+    FOREIGN KEY(AdvertisementID) REFERENCES DimAdvertisement(AdvertisementID),
+    FOREIGN KEY(DateID) REFERENCES DimDate(DateID)
 );
 
