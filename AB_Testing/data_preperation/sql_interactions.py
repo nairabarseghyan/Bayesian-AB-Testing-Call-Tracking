@@ -1,5 +1,5 @@
 import sqlite3
-import logging 
+import logging
 import pandas as pd
 import numpy as np
 import os
@@ -22,7 +22,7 @@ class SqlHandler:
 
     def __enter__(self):
         return self
-    
+
     def __exit__(self, *args, **kwargs):
         self.close_cnxn()
 
@@ -40,22 +40,22 @@ class SqlHandler:
     def get_table_columns(self)->list:
         self.cursor.execute(f"PRAGMA table_info({self.table_name});")
         columns = self.cursor.fetchall()
-        
+
         column_names = [col[1] for col in columns]
         logger.info(f'the list of columns: {column_names}')
         # self.cursor.close()
 
         return column_names
-    
+
     def truncate_table(self)->None:
-        
+
         query=f"DROP TABLE IF EXISTS {self.table_name};"
         self.cursor.execute(query)
         logging.info(f'the {self.table_name} is truncated')
         # self.cursor.close()
 
     def drop_table(self):
-        
+
         query = f"DROP TABLE IF EXISTS {self.table_name};"
         logging.info(query)
 
@@ -67,7 +67,7 @@ class SqlHandler:
         logger.debug('using drop table function')
 
     def insert_many(self, df:pd.DataFrame) -> str:
-        
+
         df=df.replace(np.nan, None) # for handling NULLS
         df.rename(columns=lambda x: x.lower(), inplace=True)
         columns = list(df.columns)
@@ -82,16 +82,16 @@ class SqlHandler:
         # if 'geometry' in columns: #! This block is usefull in case of geometry/geography data types
         #     df['geometry'] = df['geometry'].apply(lambda geom: dumps(geom))
         #     ncolumns[columns.index('geometry')]= 'geography::STGeomFromText(?, 4326)'
-        
+
         if len(columns)>1:
             cols,params =', '.join(columns), ', '.join(ncolumns)
         else:
             cols,params = columns,ncolumns
-            
+
         logger.info(f'insert structure: colnames: {cols} params: {params}')
         logger.info(values[0])
         query=f"""INSERT INTO  {self.table_name} ({cols}) VALUES ({params});"""
-        
+
         logger.info(f'QUERY: {query}')
 
         self.cursor.executemany(query, values)
@@ -103,8 +103,8 @@ class SqlHandler:
 
 
         self.cnxn.commit()
-      
-        
+
+
         logger.warning('the data is loaded')
 
     def from_sql_to_pandas(self, )-> pd.DataFrame:
@@ -115,17 +115,17 @@ class SqlHandler:
         """
 
         """
-        
+
         offset=0
         dfs=[]
-       
-        
+
+
         while True:
             # query=f"""
             # SELECT * FROM {self.table_name}
             #     ORDER BY {id_value}
             #     OFFSET  {offset}  ROWS
-            #     FETCH NEXT {chunksize} ROWS ONLY  
+            #     FETCH NEXT {chunksize} ROWS ONLY
             # """
 
             query=f"""
@@ -133,7 +133,7 @@ class SqlHandler:
                 LIMIT {chunksize}  
                 OFFSET {offset}
             """
-            data = pd.read_sql_query(query,self.cnxn) 
+            data = pd.read_sql_query(query,self.cnxn)
             logger.info(f'the shape of the chunk: {data.shape}')
             dfs.append(data)
             offset += chunksize
@@ -146,12 +146,21 @@ class SqlHandler:
         return df
 
 
-    def update_table(self,condition):
-        raise NotImplementedError()
-        # TODO
+    def update_table(self, set_values, condition):
+        if not set_values:
+            logger.warning('No values to update. Provide set_values.')
+            return
 
-   
-        
+        set_clause = ', '.join(f"{col} = ?" for col in set_values.keys())
+        values = list(set_values.values())
 
+        query = f"""
+        UPDATE {self.table_name}
+        SET {set_clause}
+        WHERE {condition};
+        """
 
+        self.cursor.execute(query, values)
+        self.cnxn.commit()
 
+        logger.info(f"Rows updated: {self.cursor.rowcount}")
