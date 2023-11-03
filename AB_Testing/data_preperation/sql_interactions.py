@@ -20,6 +20,12 @@ class SqlHandler:
         self.dbname=dbname
         self.table_name=table_name
 
+    def __enter__(self):
+        return self
+    
+    def __exit__(self, *args, **kwargs):
+        self.close_cnxn()
+
     def close_cnxn(self)->None:
 
         logger.info('commiting the changes')
