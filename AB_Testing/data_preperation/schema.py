@@ -20,9 +20,10 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 from datetime import datetime
 
-engine=create_engine('sqlite:///temp.db')
+engine=create_engine('sqlite:///CallTracking.db')
 
 Base= declarative_base()
+
 
 class DimDate(Base):
     __tablename__ = "DimDate"
@@ -33,12 +34,14 @@ class DimDate(Base):
     Quarter = Column(Integer)
     Year = Column(Integer)
 
+
 class DimAdvertisement(Base):
     __tablename__ = "DimAdvertisement"
 
     AdvertisementID = Column(Integer, primary_key=True)
     AdvertisementType = Column(String)
     Budget = Column(float)
+
 
 class DimSource(Base):
     __tablename__ = "DimSource"
@@ -57,6 +60,14 @@ class DimCustomer(Base):
     ContactInfo = Column(String)
 
 
+class DimAlgorithm(Base):
+    __tablename__ = "DimAlgorithm"
+
+    AlgorithmID = Column(Integer, primary_key=True)
+    AlgorithmName = Column(String)
+    Description = Column(String)
+
+
 class CallTrackingResults(Base):
     __tablename__ = "CallTrackingResults"
 
@@ -68,10 +79,23 @@ class CallTrackingResults(Base):
     CallDuration = Column(Integer)
     ConversionStatus = Column(String)
 
+
+class FactAlgorithm(Base):
+    __tablename__ = "FactAlgorithm"
+
+    AlgorithmResultID = Column(Integer, primary_key=True)
+    AlgorithmID = Column(Integer, ForeignKey('DimAlgorithm.AlgorithmID'))
+    AlgorithmResults = Column(Integer)
+
+
     DimDate = relationship("DimDate")
     DimAdvertisement = relationship("DimAdvertisement")
     DimSource = relationship("DimSource")
     DimCustomer = relationship("DimCustomer")
+    DimAlgorithm = relationship("DimAlgorithm")
+
+
+
 
 
 Base.metadata.create_all(engine)
