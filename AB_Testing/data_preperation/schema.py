@@ -66,6 +66,7 @@ class DimAlgorithm(Base):
     AlgorithmID = Column(Integer, primary_key=True)
     AlgorithmName = Column(String)
     Description = Column(String)
+    Reward = Column(Float)
 
 
 class CallTrackingResults(Base):
@@ -93,8 +94,6 @@ class FactAlgorithm(Base):
     DimSource = relationship("DimSource")
     DimCustomer = relationship("DimCustomer")
     DimAlgorithm = relationship("DimAlgorithm")
-
-
 
 
 
