@@ -1,10 +1,15 @@
+"""Fake data generators"""
+
 from faker import Faker
 import pandas as pd
 import random
+import numpy as np
 import logging
 from ..logger import CustomFormatter
 import os
+import json
 from datetime import datetime
+
 logger = logging.getLogger(os.path.basename(__file__))
 logger.setLevel(logging.DEBUG)
 ch = logging.StreamHandler()
@@ -14,45 +19,32 @@ logger.addHandler(ch)
 
 fake=Faker()
 
-
-def source_type_identifier(source):
-    online_source =["Facebook", "Instagram"]
-    offline_sources = ["Billboard", "Flyer", "TV", "Magazine"]
-    if source in online_source:
-        return "Online"
-    elif source in offline_sources:
-        return "Offline"
-    else:
-        return "Unknown"
     
-# Data Models
+def generate_arm(arm_id):
+    """Generates an arm"""
 
-# advetisment generator 
-def generate_advertisment(advertisment_id):
     return {
-        "AdvertisementID": advertisment_id,
-        "AdvertisementType": fake.word()
+        "arm_id": arm_id,
+        "type": fake.word(),
+        "reward": np.random.randint(1, 15),
+        "active": np.random.uniform() > 0.85
     }
 
-#Source generator 
-def generate_source(employee_id):
-    sources = ["Facebook", "Instagram", "Billboard", "Flyer", "TV", "Magazine"]
-    source_choice = random.choice(sources)
-    return {
-        "SourceID": employee_id,
-        "SourceName": source_choice,
-        "SourceType": source_type_identifier(source_choice)
-    }
 
 def generate_customer(customer_id):
+    """Generates a customer with random info"""
+
     return {
-        "CustomerID": customer_id,
-        "customer_name": fake.name(),
-        "Location": fake.street_address(),
-        "ContactInfo": fake.phone_number()
+        "customer_id": customer_id,
+        "name": fake.name(),
+        "location": fake.street_address(),
+        "contact": fake.phone_number()
     }
 
+
 def generate_date(date_id):
+    """Generates a random date in 2023"""
+
     # Generate a random date between a specific date range
     start_date = datetime(2023, 1, 1)
     end_date = datetime(2023, 12, 31)
@@ -65,22 +57,25 @@ def generate_date(date_id):
     day = random_date.strftime('%d')
 
     return {
-        "CalendarDate": random_date.strftime("%Y-%m-%d"),
-        "Year": year,
-        "Day": day,
-        "Month": month,
-        "Quarter": quarter
+        "date_id": date_id,
+        "date": random_date.strftime("%Y-%m-%d"),
+        "day": day,
+        "month": month,
+        "quarter": quarter,
+        "year": year
     }
 
-### NOT YET IMPLEMETED IN DB ###
-def generate_calls(call_id, customer_id, product_id, phone_number_id, source_id):
+
+def generate_serve(serve_id, date_id, customer_id, arm_id, p):
+    """Generates a serve with random info"""
 
     return {
-        "call_id": call_id,
+        "serve_id": serve_id,
+        "date_id": date_id,
         "customer_id": customer_id,
-        "phone_number_id": phone_number_id,
-        "source_id": source_id,
-        "call_duration": random.randint(0,1000)
+        "arm_id": arm_id,
+        "information": json.dumps(fake.profile()),
+        "result": np.random.uniform() >= p
     }
 
 
