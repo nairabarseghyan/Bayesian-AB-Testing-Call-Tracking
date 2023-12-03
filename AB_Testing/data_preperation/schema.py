@@ -1,5 +1,4 @@
-
-# from ..logger import CustomFormatter
+"""Contains any DDL for the database"""
 
 import logging
 import os
@@ -15,86 +14,69 @@ ch.setFormatter(CustomFormatter())
 logger.addHandler(ch)
 
 
-from sqlalchemy import create_engine,Column,Integer,String,Float, DATE, DateTime, ForeignKey
+from sqlalchemy import create_engine, Column, Integer, String, Float, DATE, DateTime, ForeignKey, Boolean
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker, relationship
 from datetime import datetime
 
-engine=create_engine('sqlite:///CallTracking.db')
+def create_ORM(path):
+    engine = create_engine(f'sqlite:///{path}')
 
-Base= declarative_base()
+    Base = declarative_base()
 
+    class DimDate(Base):
+        __tablename__ = "DimDate"
 
-class DimDate(Base):
-    __tablename__ = "DimDate"
-
-    DateID = Column(Integer, primary_key=True)
-    CalendarDate = Column(DateTime)
-    Month = Column(Integer)
-    Quarter = Column(Integer)
-    Year = Column(Integer)
-
-
-class DimAdvertisement(Base):
-    __tablename__ = "DimAdvertisement"
-
-    AdvertisementID = Column(Integer, primary_key=True)
-    AdvertisementType = Column(String)
-    Budget = Column(float)
+        date_id = Column(Integer, primary_key=True)
+        date = Column(DateTime)
+        day = Column(Integer)
+        month = Column(Integer)
+        quarter = Column(Integer)
+        year = Column(Integer)
 
 
-class DimSource(Base):
-    __tablename__ = "DimSource"
+    class DimArm(Base):
+        __tablename__ = "DimArm"
 
-    SourceID = Column(Integer, primary_key=True)
-    SourceName = Column(String)
-    SourceType = Column(String)
-
-
-class DimCustomer(Base):
-    __tablename__ = "DimCustomer"
-
-    CustomerID = Column(Integer, primary_key=True)
-    CustomerName = Column(String)
-    Location = Column(Float)
-    ContactInfo = Column(String)
+        arm_id = Column(Integer, primary_key=True)
+        type = Column(String)
+        reward = Column(Float)
+        active = Column(Boolean)
 
 
-class DimAlgorithm(Base):
-    __tablename__ = "DimAlgorithm"
+    class DimCustomer(Base):
+        __tablename__ = "DimCustomer"
 
-    AlgorithmID = Column(Integer, primary_key=True)
-    AlgorithmName = Column(String)
-    Description = Column(String)
-    Reward = Column(Float)
-
-
-class CallTrackingResults(Base):
-    __tablename__ = "CallTrackingResults"
-
-    ResultID = Column(Integer, primary_key=True)
-    DateID = Column(Integer, ForeignKey('DimDate.DateID'))
-    AdvertisementID = Column(Integer, ForeignKey('DimAdvertisement.AdvertisementID'))
-    SourceID = Column(Integer, ForeignKey('DimSource.SourceID'))
-    CustomerID = Column(Integer, ForeignKey('DimCustomer.CustomerID'))
-    CallDuration = Column(Integer)
-    ConversionStatus = Column(String)
+        customer_id = Column(Integer, primary_key=True)
+        name = Column(String)
+        location = Column(Float)
+        contact = Column(String)
 
 
-class FactAlgorithm(Base):
-    __tablename__ = "FactAlgorithm"
+    class Serve(Base):
+        __tablename__ = "Serve"
 
-    AlgorithmResultID = Column(Integer, primary_key=True)
-    AlgorithmID = Column(Integer, ForeignKey('DimAlgorithm.AlgorithmID'))
-    AlgorithmResults = Column(Integer)
+        serve_id = Column(Integer, primary_key=True)
+        date_id = Column(Integer, ForeignKey('DimDate.date_id'))
+        customer_id = Column(Integer, ForeignKey('DimCustomer.customer_id'))
+        arm_id = Column(Integer, ForeignKey('DimArm.arm_id'))
+        information = Column(String)
+        result = Column(Boolean, nullable = True)
 
 
-    DimDate = relationship("DimDate")
-    DimAdvertisement = relationship("DimAdvertisement")
-    DimSource = relationship("DimSource")
-    DimCustomer = relationship("DimCustomer")
-    DimAlgorithm = relationship("DimAlgorithm")
+    class AggregateResult(Base):
+        __tablename__ = "AggregateResult"
+
+        arm_id = Column(Integer, primary_key=True)
+        customer_id = Column(Integer)
+        n_triggered = Column(Integer)
+        n_served = Column(Integer)
+        a = Column(Float)
+        b = Column(Float)
+        average_reward = Column(Float)
 
 
 
-Base.metadata.create_all(engine)
+
+    Base.metadata.create_all(engine)
+    del Base
+    del engine
