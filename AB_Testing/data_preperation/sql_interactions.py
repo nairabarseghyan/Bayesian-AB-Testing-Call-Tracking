@@ -7,7 +7,7 @@ import numpy as np
 import os
 from ..logger import CustomFormatter
 from ..data_preperation.schema import create_ORM
-from ..utils import ISQL_Etiquette
+from ..utils import ISQL_Etiquette, db_path
 
 logger = logging.getLogger(os.path.basename(__file__))
 logger.setLevel(logging.DEBUG)
@@ -19,10 +19,12 @@ logger.addHandler(ch)
 class SqlHandler(ISQL_Etiquette):
     """Handles all interactions with the database"""
 
-    def __init__(self, cnxn, table_name: str) -> None:
+    def __init__(self, table_name: str) -> None:
         super().__init__()
-        self.cnxn = cnxn
+        
+        self.cnxn = sqlite3.connect(db_path)
         self.table_name = table_name
+
         cur = self.exec(f'SELECT l.name FROM pragma_table_info("{table_name}") as l WHERE l.pk = 1;')
         self.pk = list(cur)[0][0]
 
@@ -182,7 +184,7 @@ class SqlHandler(ISQL_Etiquette):
         WHERE {condition};
         """
 
-        cur = self.exec(query, values)
+        cur = self.exec(query, values if hasattr(values, "__iter__") else list(values))
         
         logger.info(f"Rows updated: {cur.rowcount}")
 
@@ -196,14 +198,17 @@ class SqlHandler(ISQL_Etiquette):
 
     def select_one(self, id: int, cols: list = []) -> dict:
         """Selects only one row and returns it as a python dictionary"""
+
         cond = self.pk + " = ?"
         query = f"select {'*' if len(cols) == 0 else ', '.join(cols)} from {self.table_name} where {cond}"
-        cur = self.exec(query, cond)
+        cur = self.exec(query, (id, ))
+        
         return {k:v for k, v in zip(self.get_table_columns() if len(cols) == 0 else cols, list(cur)[0])}
     
 
     def get_next_id(self):
         """Conveniently gets the increment of the previous id (used for creating a new entry)"""
+        
         query = f"select (max({self.pk}) + 1) from {self.table_name};"
         cur = list(self.exec(query))
         cur = cur[0]

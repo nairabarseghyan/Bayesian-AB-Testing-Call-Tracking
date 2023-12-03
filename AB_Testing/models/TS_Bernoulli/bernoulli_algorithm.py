@@ -41,7 +41,7 @@ class ThompsonArm(ISQL_Etiquette):
             if all([k in list(kwargs.keys()) for k in ["type", "reward"]]):
                 logging.warning(em + ", attempting to create one")
                 
-                sh = SqlHandler(cnxn, "DimArm")
+                sh = SqlHandler("DimArm")
                 sh.insert_one(arm_id = id, type = kwargs["type"], reward = kwargs["reward"], active = 1)
                 self.type_, self.reward, self.active = kwargs["type"], kwargs["reward"], 1
             else:
@@ -55,12 +55,13 @@ class ThompsonArm(ISQL_Etiquette):
 
         # region checking AggregateResult
 
+        self.sh = SqlHandler("AggregateResult")
+
         cur = list(self.exec("select customer_id, n_triggered, n_served, a, b, average_reward from AggregateResult where arm_id = ?", (id,)))
         if len(cur) == 0:
             if "customer_id" in list(kwargs.keys()):
                 logging.warning(em + ", attempting to create one")
                 
-                self.sh = SqlHandler(cnxn, "AggregateResult")
                 self.sh.insert_one(arm_id = id, n_triggered = 0, n_served = 0, a = 1, b = 1, average_reward = 0, customer_id = kwargs["customer_id"])
                 self.n_triggered, self.n_served, self.a, self.b, self.average_reward, self.customer_id = 0, 0, 1, 1, 0, kwargs["customer_id"]
             else:
@@ -84,7 +85,7 @@ class ThompsonArm(ISQL_Etiquette):
         """
         Pulls a random number from the beta distribution (used to determine winner while allowing for exploration)
         """
-        sample = np.random.beta(self.a, self.b) if active else 0
+        sample = np.random.beta(self.a, self.b) if self.active else 0
         return sample
 
 
@@ -95,7 +96,7 @@ class ThompsonArm(ISQL_Etiquette):
         self.sh.update_one(self.id, n_served = self.n_served, b = self.b)
 
         
-        dim_date = SqlHandler(self.cnxn, "DimDate")
+        dim_date = SqlHandler("DimDate")
         date_id = dim_date.get_next_id()
         curr_date = datetime.now()
         dim_date.insert_one(
@@ -108,7 +109,7 @@ class ThompsonArm(ISQL_Etiquette):
         )
         
 
-        serve_tbl = SqlHandler(self.cnxn, "Serve")
+        serve_tbl = SqlHandler("Serve")
         serve_id = serve_tbl.get_next_id()
         serve_dict = dict(serve_id=serve_id, date_id=date_id, customer_id=self.customer_id, arm_id=self.id, information=information, result=None)
         serve_tbl.insert_one(**serve_dict)
@@ -123,12 +124,12 @@ class ThompsonArm(ISQL_Etiquette):
         self.a += 1
         self.sh.update_one(self.id, n_triggered = self.n_triggered, average_reward = self.average_reward, a = self.a)
 
-        serve_tbl = SqlHandler(self.cnxn, "Serve")
+        serve_tbl = SqlHandler("Serve")
         serve_tbl.update_one(serve_id, result=1)
 
 
     def change_type(self, type = None):
-        with SqlHandler(self.cnxn, "DimArm") as dim_arm:
+        with SqlHandler("DimArm") as dim_arm:
             arm = dim_arm.select_one(self.id)
             dim_arm.update_one(id, type=type)
 
@@ -137,7 +138,7 @@ class ThompsonArm(ISQL_Etiquette):
     
 
     def toggle_active(self):
-        with SqlHandler(self.cnxn, "DimArm") as dim_arm:
+        with SqlHandler("DimArm") as dim_arm:
             dim_arm.update_one(self.id, active = not self.active)
 
         self.active = not self.active
@@ -162,7 +163,7 @@ class ThompsonAlgo(ISQL_Etiquette):
             logging.error((em := "The customer has no active arms"))
             raise ValueError(em)
 
-        self.arms = [ThompsonArm(arm_id, type=type_, reward=reward, active=active, customer_id=customer_id) for arm_id, type_, reward, active in arms]
+        self.arms = [ThompsonArm(arm_id, cnxn, type=type_, reward=reward, active=active, customer_id=customer_id) for arm_id, type_, reward, active in arms]
       
     
     def get_best_arm(self, information: str = None) -> tuple[ThompsonArm, dict]:
