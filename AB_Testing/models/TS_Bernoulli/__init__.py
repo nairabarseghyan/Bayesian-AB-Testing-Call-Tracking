@@ -1,4 +1,4 @@
 
-from .bernoulli_algorithm import BernoulliThomsponSampling
+from .bernoulli_algorithm import ThompsonAlgo, ThompsonArm
 
 
