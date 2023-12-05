@@ -52,7 +52,6 @@ class SqlHandler(ISQL_Etiquette):
 
     def insert_one(self, **kwargs) -> None:
         """Insert a single row into the table"""
-        print(kwargs)
 
         query = f"INSERT INTO {self.table_name} ({', '.join([k for k in kwargs.keys()])}) VALUES ({', '.join(['?'] * len(kwargs))});"
         logging.debug(query, [v for v in kwargs.values()])

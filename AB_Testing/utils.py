@@ -17,8 +17,6 @@ class ISQL_Etiquette:
             conn.cursor()
             return True
         except Exception as ex:
-            print("CHK_CONN_ERR")
-            print(ex)
             return False
 
 
