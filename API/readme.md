@@ -1,1 +1,0 @@
-![demo_diagram](MA_proj_architecture_demo.drawio.png)

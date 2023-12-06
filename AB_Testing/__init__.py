@@ -1,3 +1,5 @@
+"""A/B testing library"""
+
 # importing modules
 from . import logger
 from . import models
