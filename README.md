@@ -11,6 +11,12 @@ Solution found to the above problem is a technology called call-tracking. Call t
 The aim of this project is to analyze call-tracking data of the businesses using bayesian AB testing method. This will help businesses track the advertisement sources that bring the most results and invest in best performing advertisements. We plan on experimenting with various bayesian AB testing methods covered during our class and finding the best one for the specific needs of this project. 
 
 
+### How to install
+
+```
+pip install Bayesian-AB-Testing-Call-Tracking
+```
+
 ### How to run
 
 ```
