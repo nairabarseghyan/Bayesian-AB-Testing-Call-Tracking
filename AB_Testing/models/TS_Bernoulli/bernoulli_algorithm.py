@@ -23,9 +23,17 @@ class ThompsonArm(ISQL_Etiquette):
     """
     
     def __init__(self, id: int, cnxn: sqlite3.Connection, **kwargs):
-        """
-        Constructor for the arm.
-        """
+        """Constructor for the arm.
+
+        Args:
+            id (int): arm_id
+            cnxn (sqlite3.Connection): sqlite3.connection
+
+        Raises:
+            ValueError: provide `type` and `reward` to create entry in DimArm if none exists
+            ValueError: provide `customer_id` to create entry in AggregateResult if none exists
+        """        
+
         super().__init__()
 
         self.cnxn = cnxn
@@ -90,7 +98,15 @@ class ThompsonArm(ISQL_Etiquette):
 
 
     def log_sampled(self, information: str = None):
-        """Acknowledge the fact that this arm has been chosen by the algorithm"""
+        """Acknowledge the fact that this arm has been chosen by the algorithm
+
+        Args:
+            information (str, optional): Information provided by the customer to store without structure. Defaults to None.
+
+        Returns:
+            dict: serve
+        """        
+        """"""
         self.n_served += 1
         self.b = self.n_served - self.n_triggered + 1
         self.sh.update_one(self.id, n_served = self.n_served, b = self.b)
@@ -118,7 +134,12 @@ class ThompsonArm(ISQL_Etiquette):
 
 
     def log_trigger(self, serve_id: int):
-        """Acknowledge the fact that this arm triggered a reward"""
+        """Acknowledge the fact that this arm triggered a reward
+
+        Args:
+            serve_id (int): serve_id
+        """       
+
         self.n_triggered += 1
         self.average_reward = self.n_triggered * self.reward / self.n_served
         self.a += 1
@@ -129,6 +150,14 @@ class ThompsonArm(ISQL_Etiquette):
 
 
     def change_type(self, type = None):
+        """Change the type of the arm
+
+        Args:
+            type (str, optional): Arm type. Defaults to None.
+
+        Returns:
+            self: self
+        """        
         with SqlHandler("DimArm") as dim_arm:
             arm = dim_arm.select_one(self.id)
             dim_arm.update_one(id, type=type)
@@ -150,7 +179,16 @@ class ThompsonAlgo(ISQL_Etiquette):
     """The sampling algorithm used for live A/B testing"""
         
     def __init__(self, cnxn: sqlite3.Connection, customer_id: int):
-        """Constructor that initializes the thompson algorithm"""
+        """Constructor that initializes the thompson algorithm
+
+        Args:
+            cnxn (sqlite3.Connection): Connection to db
+            customer_id (int): customer_id
+
+        Raises:
+            ValueError: The customer has no active arms
+        """        
+
         self.cnxn = cnxn
         self.customer_id = customer_id
 
@@ -166,7 +204,15 @@ class ThompsonAlgo(ISQL_Etiquette):
         self.arms = [ThompsonArm(arm_id, cnxn, type=type_, reward=reward, active=active, customer_id=customer_id) for arm_id, type_, reward, active in arms]
       
     
-    def get_best_arm(self, information: str = None) -> tuple[ThompsonArm, dict]:
+    def get_best_arm(self, information: str = None) -> dict:
+        """Samples the best arm
+
+        Args:
+            information (str, optional): Information provided by the customer to be stored without structure. Defaults to None.
+
+        Returns:
+            dict: serve 
+        """        
         j = np.argmax([arm.pull() for arm in self.arms])
         best_arm = self.arms[j]
         serve = best_arm.log_sampled(information)

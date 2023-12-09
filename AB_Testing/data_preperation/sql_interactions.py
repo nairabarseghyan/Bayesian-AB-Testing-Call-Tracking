@@ -20,6 +20,11 @@ class SqlHandler(ISQL_Etiquette):
     """Handles all interactions with the database"""
 
     def __init__(self, table_name: str) -> None:
+        """Initializes the sql handler of the table `table_name`
+
+        Args:
+            table_name (str): Which table to tether the handler to
+        """        
         super().__init__()
         
         self.cnxn = sqlite3.connect(db_path)
@@ -90,8 +95,12 @@ class SqlHandler(ISQL_Etiquette):
         logging.info(f"table '{self.table_name}' deleted.")
 
 
-    def insert_many(self, df: pd.DataFrame) -> str:
-        """Insert many values at once into the table"""
+    def insert_many(self, df: pd.DataFrame):
+        """Insert many values at once into the table
+
+        Args:
+            df (pd.DataFrame): data to insert
+        """     
 
         df = df.replace(np.nan, None)
         df.rename(columns = lambda x: x.lower(), inplace=True)
@@ -135,10 +144,15 @@ class SqlHandler(ISQL_Etiquette):
 
 
     def from_sql_to_pandas(self, chunksize:int=64) -> pd.DataFrame:
-        """
-        Converts the table into a pandas dataframe and returns it, 
+        """Converts the table into a pandas dataframe and returns it, 
         reads the table in `chnksize`-sized chunks
-        """
+
+        Args:
+            chunksize (int, optional): Number of rows per sql request. Defaults to 64.
+
+        Returns:
+            pd.DataFrame: data
+        """        
 
         offset=0
         dfs=[]
@@ -168,7 +182,12 @@ class SqlHandler(ISQL_Etiquette):
 
 
     def update_table(self, set_values: dict, condition: str):
-        """Updates some the values of some fields of some rows (based on the condition)"""
+        """Updates some the values of some fields of some rows (based on the condition)
+
+        Args:
+            set_values (dict): which columns to assign which values
+            condition (str): condition upon which to update
+        """
 
         if not set_values:
             logger.warning('No values to update. Provide set_values.')
@@ -189,14 +208,26 @@ class SqlHandler(ISQL_Etiquette):
 
 
     def update_one(self, id: int, **kwargs: dict):
-        """Updates a single row in the table"""
+        """Updates a single row in the table
+
+        Args:
+            id (int): row to update
+        """
 
         cond = self.pk + " = " + str(id)
         self.update_table(kwargs, cond)
 
 
     def select_one(self, id: int, cols: list = []) -> dict:
-        """Selects only one row and returns it as a python dictionary"""
+        """Selects only one row and returns it as a python dictionary
+
+        Args:
+            id (int): id of row
+            cols (list, optional): Which columns to select. Selects all columns if the list is empty. Defaults to [].
+
+        Returns:
+            dict: row
+        """   
 
         cond = self.pk + " = ?"
         query = f"select {'*' if len(cols) == 0 else ', '.join(cols)} from {self.table_name} where {cond}"

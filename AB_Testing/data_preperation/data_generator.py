@@ -21,7 +21,14 @@ fake=Faker()
 
     
 def generate_arm(arm_id):
-    """Generates an arm"""
+    """Generates an arm
+
+    Args:
+        arm_id (int): arm_id
+
+    Returns:
+        dict: arm
+    """    
 
     return {
         "arm_id": arm_id,
@@ -32,7 +39,14 @@ def generate_arm(arm_id):
 
 
 def generate_customer(customer_id):
-    """Generates a customer with random info"""
+    """Generates a customer with random info
+
+    Args:
+        customer_id (int): customer_id
+
+    Returns:
+        dict: customer
+    """    
 
     return {
         "customer_id": customer_id,
@@ -43,7 +57,14 @@ def generate_customer(customer_id):
 
 
 def generate_date(date_id):
-    """Generates a random date in 2023"""
+    """Generates a random date in 2023
+
+    Args:
+        date_id (int): date_id
+
+    Returns:
+        dict: date 
+    """    
 
     # Generate a random date between a specific date range
     start_date = datetime(2023, 1, 1)
@@ -67,7 +88,18 @@ def generate_date(date_id):
 
 
 def generate_serve(serve_id, date_id, customer_id, arm_id, p):
-    """Generates a serve with random info"""
+    """Generates a serve with random info
+
+    Args:
+        serve_id (int): serve_id
+        date_id (int): date_id
+        customer_id (int): customer_id
+        arm_id (int): arm_id
+        p (float): probability of success
+
+    Returns:
+        dict: serve
+    """    
 
     return {
         "serve_id": serve_id,

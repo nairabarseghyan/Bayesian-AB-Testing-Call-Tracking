@@ -12,7 +12,15 @@ class ISQL_Etiquette:
 
 
     def chk_conn(conn):
-        """Check if connection is still alive"""
+        """Check if connection is still alive
+
+        Args:
+            conn (sqlite3.connection): connection
+
+        Returns:
+            bool: True if is alive, false otherwise
+        """        
+        
         try:
             conn.cursor()
             return True
@@ -27,7 +35,14 @@ class ISQL_Etiquette:
 
 
     def exec(self, query: str, *args, **kwargs):
-        """Executres a given query and commits immediately after"""
+        """Executres a given query and commits immediately after
+
+        Args:
+            query (str): query string
+
+        Returns:
+            sqlite3.Cursor: cursor
+        """       
         self.refresh_conn()
 
         cur = self.cnxn.execute(query, *args, **kwargs)
@@ -37,7 +52,15 @@ class ISQL_Etiquette:
     
 
     def exec_many(self, query: str, *args, **kwargs):
-        """Executres many queries and commits immediately after"""
+        """Executres many queries and commits immediately after
+
+        Args:
+            query (str): query string
+
+        Returns:
+            sqlite3.Cursor: cursor
+        """        
+
         self.refresh_conn()
 
         cur = self.cnxn.executemany(query, *args, **kwargs)
