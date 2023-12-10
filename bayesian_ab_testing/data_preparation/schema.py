@@ -54,7 +54,7 @@ def create_ORM(path):
 
         customer_id = Column(Integer, primary_key=True)
         name = Column(String)
-        location = Column(Float)
+        location = Column(String)
         contact = Column(String)
 
 

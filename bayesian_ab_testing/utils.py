@@ -2,7 +2,6 @@
 
 import sqlite3
 
-db_path = "ab_testing.sqlite" # hard-coded is bad, change this when you're deploying to prod
 
 
 class ISQL_Etiquette:

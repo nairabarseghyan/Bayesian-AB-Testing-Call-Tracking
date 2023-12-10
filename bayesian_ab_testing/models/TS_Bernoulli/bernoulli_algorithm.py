@@ -3,7 +3,7 @@
 import logging
 from ...logger import CustomFormatter
 from ...utils import ISQL_Etiquette
-from ...data_preperation import SqlHandler
+from ...data_preparation import SqlHandler
 import sqlite3
 import os
 import numpy as np

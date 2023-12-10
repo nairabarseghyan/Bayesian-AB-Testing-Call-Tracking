@@ -6,8 +6,10 @@ import pandas as pd
 import numpy as np
 import os
 from ..logger import CustomFormatter
-from ..data_preperation.schema import create_ORM
-from ..utils import ISQL_Etiquette, db_path
+from ..data_preparation.schema import create_ORM
+from ..utils import ISQL_Etiquette
+
+from ..config import db_path
 
 logger = logging.getLogger(os.path.basename(__file__))
 logger.setLevel(logging.DEBUG)

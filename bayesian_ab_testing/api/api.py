@@ -9,10 +9,12 @@ import pandas as pd
 import sqlite3
 import logging
 
-from AB_Testing.data_preperation import SqlHandler
-from AB_Testing.data_preperation.schema import create_ORM
-from AB_Testing.models.TS_Bernoulli import ThompsonAlgo, ThompsonArm
-import AB_Testing
+from bayesian_ab_testing.data_preparation import SqlHandler
+from bayesian_ab_testing.data_preparation.schema import create_ORM
+from bayesian_ab_testing.models.TS_Bernoulli import ThompsonAlgo, ThompsonArm
+import bayesian_ab_testing
+
+from ..config import db_path
 
 # endregion imports
 
@@ -20,8 +22,8 @@ import AB_Testing
 
 app = FastAPI()
 
-create_ORM(AB_Testing.db_path)
-cnxn = sqlite3.connect(AB_Testing.db_path)
+create_ORM(db_path)
+cnxn = sqlite3.connect(db_path)
 
 #
 # Authentication skipped since this is purely educational, 

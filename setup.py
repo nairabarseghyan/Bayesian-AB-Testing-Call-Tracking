@@ -11,7 +11,11 @@ setup(
             #  'anush_aghinyan@edu.aua.am, ana...m, mher_movsisyan@edu.aua.am, ' is an invalid value for Author-email. Error: Use a valid email address See
             #  https://packaging.python.org/specifications/core-metadata for more information.
     description='AB testing tool, designed for testing data of call tracking services',
-    name='Bayesian-AB-Testing-Call-Tracking',
-    version='0.1.0',
-    packages=find_packages(include=['Bayesian-AB-Testing-Call-Tracking','Bayesian-AB-Testing-Call-Tracking.*']),
+    name='bayesian_ab_testing',
+    version='0.3.0',
+    packages=find_packages(include=['bayesian_ab_testing','bayesian_ab_testing.*']),
+    long_description="""# Bayesian AB Testing  \n\nAB testing tool, designed for testing data of call tracking services\n""",
+    long_description_content_type='text/markdown',
+    python_requires=">=3.11",
+    install_requires=open("requirements.txt", "r").read().split("\n")
 )
