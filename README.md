@@ -1,6 +1,6 @@
 # Bayesian-AB-Testing-Call-Tracking
 Bayesian A/B testing for Call Tracking applications. Project for the class DS223 Marketing Analytics, American University of Armenia  
-[https://pypi.org/project/Bayesian-AB-Testing-Call-Tracking/0.1.0/](https://pypi.org/project/Bayesian-AB-Testing-Call-Tracking/0.1.0/)
+[https://pypi.org/project/bayesian-ab-testing/](https://pypi.org/project/bayesian-ab-testing/)
 
 ### Project Proposal 
 
