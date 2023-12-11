@@ -14,7 +14,7 @@ The aim of this project is to analyze call-tracking data of the businesses using
 ### How to install
 
 ```
-pip install Bayesian-AB-Testing-Call-Tracking
+pip install bayesian_ab_testing
 ```
 
 ### How to run
