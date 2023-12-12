@@ -11,7 +11,7 @@ class ISQL_Etiquette:
         pass
 
 
-    def chk_conn(conn):
+    def chk_conn(conn) -> bool:
         """Check if connection is still alive
 
         Args:
@@ -34,7 +34,7 @@ class ISQL_Etiquette:
             self.cnxn = sqlite3.connect(db_path)
 
 
-    def exec(self, query: str, *args, **kwargs):
+    def exec(self, query: str, *args, **kwargs) -> sqlite3.Cursor:
         """Executres a given query and commits immediately after
 
         Args:
@@ -51,7 +51,7 @@ class ISQL_Etiquette:
         return cur
     
 
-    def exec_many(self, query: str, *args, **kwargs):
+    def exec_many(self, query: str, *args, **kwargs) -> sqlite3.Cursor:
         """Executres many queries and commits immediately after
 
         Args:
