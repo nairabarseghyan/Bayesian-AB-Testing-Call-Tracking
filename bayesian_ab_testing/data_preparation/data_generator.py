@@ -106,7 +106,7 @@ def generate_serve(serve_id, date_id, customer_id, arm_id, p) -> dict:
         "date_id": date_id,
         "customer_id": customer_id,
         "arm_id": arm_id,
-        "information": json.dumps(fake.profile()),
+        "information": json.dumps(fake.profile(fields=["job", "company", "ssn"])),
         "result": np.random.uniform() >= p
     }
 

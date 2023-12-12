@@ -1,7 +1,21 @@
 site_name: Bayesian AB Testing
-theme:
+theme: 
   name: material
-  nav_style: dark
+  palette: 
+
+    # Palette toggle for dark mode
+    - scheme: default
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+    # Palette toggle for light mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-7 
+        name: Switch to dark mode
+
+    
 
 plugins:
 - search

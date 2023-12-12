@@ -12,7 +12,7 @@ setup(
             #  https://packaging.python.org/specifications/core-metadata for more information.
     description='AB testing tool, designed for testing data of call tracking services',
     name='bayesian_ab_testing',
-    version='1.0.0',
+    version='1.1.2',
     packages=find_packages(include=['bayesian_ab_testing','bayesian_ab_testing.*']),
     long_description="""# Bayesian AB Testing  \n\nAB testing tool, designed for testing data of call tracking services\n""",
     long_description_content_type='text/markdown',
