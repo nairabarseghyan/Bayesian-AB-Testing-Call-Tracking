@@ -1,6 +1,6 @@
 site_name: Bayesian AB Testing
 theme:
-  name: readthedocs
+  name: material
   nav_style: dark
 
 plugins:
