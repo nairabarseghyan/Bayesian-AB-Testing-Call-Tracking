@@ -82,14 +82,14 @@ class ThompsonArm(ISQL_Etiquette):
         # endregion checking AggregateResult
         
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """
         String representation of the arm.
         """
         return f"Bandit {self.id} with {self.n_triggered / self.n_served} Win Rate"
 
 
-    def pull(self):
+    def pull(self) -> float:
         """
         Pulls a random number from the beta distribution (used to determine winner while allowing for exploration)
         """
@@ -97,7 +97,7 @@ class ThompsonArm(ISQL_Etiquette):
         return sample
 
 
-    def log_sampled(self, information: str = None):
+    def log_sampled(self, information: str = None) -> dict:
         """Acknowledge the fact that this arm has been chosen by the algorithm
 
         Args:
@@ -105,8 +105,7 @@ class ThompsonArm(ISQL_Etiquette):
 
         Returns:
             dict: serve
-        """        
-        """"""
+        """
         self.n_served += 1
         self.b = self.n_served - self.n_triggered + 1
         self.sh.update_one(self.id, n_served = self.n_served, b = self.b)
@@ -154,16 +153,12 @@ class ThompsonArm(ISQL_Etiquette):
 
         Args:
             type (str, optional): Arm type. Defaults to None.
-
-        Returns:
-            self: self
         """        
         with SqlHandler("DimArm") as dim_arm:
             arm = dim_arm.select_one(self.id)
             dim_arm.update_one(id, type=type)
 
         self.type_ = type
-        return self
     
 
     def toggle_active(self):

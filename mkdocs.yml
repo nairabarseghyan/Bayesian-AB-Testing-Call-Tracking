@@ -1,0 +1,8 @@
+site_name: Bayesian AB Testing
+theme:
+  name: readthedocs
+  nav_style: dark
+
+plugins:
+- search
+- mkdocstrings

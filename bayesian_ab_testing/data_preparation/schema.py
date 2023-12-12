@@ -22,7 +22,7 @@ def create_ORM(path):
     """Creates the sql tables by mapping objects to it
 
     Args:
-        path (_type_): path to sqlite db
+        path (str): path to sqlite db
     """    
 
     engine = create_engine(f'sqlite:///{path}')
