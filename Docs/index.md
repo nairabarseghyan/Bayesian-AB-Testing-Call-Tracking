@@ -1,17 +1,16 @@
-# Welcome to MkDocs
+# Welcome to `bayesian_ab_testing` documentation
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
 
-## Commands
+## How to install
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+Note: python version 3.11 or above required
+```
+pip install bayesian_ab_testing
+```
 
 ## Project layout
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+    bayesian_ab_testing
+        api
+        data_preparation
+        models

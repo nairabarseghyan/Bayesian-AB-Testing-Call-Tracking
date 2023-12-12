@@ -1,6 +1,7 @@
 """Non-structured functionality"""
 
 import sqlite3
+from .config import db_path
 
 
 
