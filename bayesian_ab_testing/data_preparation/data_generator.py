@@ -20,7 +20,7 @@ logger.addHandler(ch)
 fake=Faker()
 
     
-def generate_arm(arm_id):
+def generate_arm(arm_id) -> dict:
     """Generates an arm
 
     Args:
@@ -38,7 +38,7 @@ def generate_arm(arm_id):
     }
 
 
-def generate_customer(customer_id):
+def generate_customer(customer_id) -> dict:
     """Generates a customer with random info
 
     Args:
@@ -56,7 +56,7 @@ def generate_customer(customer_id):
     }
 
 
-def generate_date(date_id):
+def generate_date(date_id) -> dict:
     """Generates a random date in 2023
 
     Args:
@@ -87,7 +87,7 @@ def generate_date(date_id):
     }
 
 
-def generate_serve(serve_id, date_id, customer_id, arm_id, p):
+def generate_serve(serve_id, date_id, customer_id, arm_id, p) -> dict:
     """Generates a serve with random info
 
     Args:

@@ -33,7 +33,7 @@ cnxn = sqlite3.connect(db_path)
 # endregion initialization
 
 @app.get("/arm")
-async def get_arm(id: int = -1):
+async def get_arm(id: int = -1) -> dict:
     """Gets arm information, or multiple if id = -1
 
     Args:
@@ -54,7 +54,7 @@ async def get_arm(id: int = -1):
 
 
 @app.post("/arm")
-async def add_arm(customer_id: int, type: str, reward: float):
+async def add_arm(customer_id: int, type: str, reward: float) -> dict:
     """Adds an arm
 
     Args:
@@ -72,7 +72,7 @@ async def add_arm(customer_id: int, type: str, reward: float):
 
     
 @app.put("/arm/type")
-async def mod_arm(id: int, type: Union[str, None]):
+async def mod_arm(id: int, type: Union[str, None]) -> str:
     """Modifies the type of the arm
 
     Args:
@@ -90,8 +90,16 @@ async def mod_arm(id: int, type: Union[str, None]):
 
 
 @app.put("/arm")
-async def toggle_arm(id: int):
-    """Turns an arm on/off"""
+async def toggle_arm(id: int) -> str:
+    """Turns an arm on/off
+
+    Args:
+        id (int): arm id
+
+    Returns:
+        str: ok or error message
+    """
+
     try:
         ThompsonArm(id, cnxn).toggle_active()
     except ValueError as e:
@@ -138,7 +146,7 @@ async def log_result(customer_id, arm_id, serve_id) -> str:
 
 
 @app.get("/stats")
-async def stats(arm_id: int):
+async def stats(arm_id: int) -> dict:
     """Summary statistics and state of an arm
 
     Args:
@@ -154,7 +162,7 @@ async def stats(arm_id: int):
 
 
 @app.post("/client")
-async def add_client(name:str, location: str, contact: str):
+async def add_client(name:str, location: str, contact: str) -> dict:
     """Adds a client to the db
 
     Args:
