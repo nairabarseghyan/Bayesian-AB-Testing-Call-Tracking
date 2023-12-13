@@ -2,6 +2,8 @@
 Bayesian A/B testing for Call Tracking applications. Project for the class DS223 Marketing Analytics, American University of Armenia  
 [https://pypi.org/project/bayesian-ab-testing/](https://pypi.org/project/bayesian-ab-testing/)
 
+[Official documentation](https://mkdocs.bayesian.movsisyan.info)
+
 ### Project Proposal 
 
 Bayesian AB testing is widely used for analyzing business performances in various aspects. One of the fields that Bayesian AB testing is useful, is analyzing performance of advertisements. Online businesses analyze advertisements and make better decisions, which helps them to minimize budget spending on advertisements that do not work. However, the majority of businesses are operating offline, and promoting their products and services with offline advertising. We wanted to investigate how offline businesses can use this Bayesian AB testing to make better decisions concerning their advertisement types and advertisement budget. 
