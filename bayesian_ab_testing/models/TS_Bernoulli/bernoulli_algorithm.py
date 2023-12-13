@@ -208,7 +208,7 @@ class ThompsonAlgo(ISQL_Etiquette):
         Returns:
             dict: serve 
         """        
-        j = np.argmax([arm.pull() for arm in self.arms])
+        j = np.argmax([arm.pull() * arm.reward for arm in self.arms])
         best_arm = self.arms[j]
         serve = best_arm.log_sampled(information)
 
